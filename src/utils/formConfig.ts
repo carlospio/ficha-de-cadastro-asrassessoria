@@ -1,0 +1,72 @@
+import { FormStep } from '@/types/form';
+
+export const formSteps: FormStep[] = [
+  {
+    title: 'Dados Pessoais',
+    fields: [
+      { name: 'nome', label: 'Nome Completo', type: 'text', required: true },
+      { name: 'dataNascimento', label: 'Data de Nascimento', type: 'date', required: true },
+      { name: 'estadoCivil', label: 'Estado Civil', type: 'select', required: true, options: [
+        'Solteiro(a)', 'Casado(a)', 'Divorciado(a)', 'Viúvo(a)', 'União Estável'
+      ]},
+      { name: 'nacionalidade', label: 'Nacionalidade', type: 'text', required: true },
+      { name: 'naturalidade', label: 'Naturalidade', type: 'text', required: true },
+      { name: 'cpf', label: 'CPF', type: 'text', required: true, mask: '999.999.999-99' },
+      { name: 'rg', label: 'RG', type: 'text', required: true },
+      { name: 'orgaoEmissor', label: 'Órgão Emissor', type: 'text', required: true },
+      { name: 'dataEmissao', label: 'Data de Emissão', type: 'date', required: true },
+    ]
+  },
+  {
+    title: 'Endereço e Contato',
+    fields: [
+      { name: 'endereco', label: 'Endereço', type: 'text', required: true },
+      { name: 'bairro', label: 'Bairro', type: 'text', required: true },
+      { name: 'cidade', label: 'Cidade', type: 'text', required: true },
+      { name: 'estado', label: 'Estado', type: 'text', required: true },
+      { name: 'cep', label: 'CEP', type: 'text', required: true, mask: '99999-999' },
+      { name: 'telefone', label: 'Telefone', type: 'tel', required: false, mask: '(99) 9999-9999' },
+      { name: 'celular', label: 'Celular', type: 'tel', required: true, mask: '(99) 99999-9999' },
+      { name: 'email', label: 'E-mail', type: 'email', required: true },
+    ]
+  },
+  {
+    title: 'Dados Profissionais',
+    fields: [
+      { name: 'profissao', label: 'Profissão', type: 'text', required: true },
+      { name: 'empresa', label: 'Empresa', type: 'text', required: true },
+      { name: 'cargo', label: 'Cargo', type: 'text', required: true },
+      { name: 'rendaMensal', label: 'Renda Mensal', type: 'text', required: true },
+      { name: 'tempoServico', label: 'Tempo de Serviço', type: 'text', required: true },
+    ]
+  },
+  {
+    title: 'Dados do Cônjuge',
+    fields: [
+      { name: 'nomeConjuge', label: 'Nome do Cônjuge', type: 'text', required: false },
+      { name: 'cpfConjuge', label: 'CPF do Cônjuge', type: 'text', required: false, mask: '999.999.999-99' },
+      { name: 'profissaoConjuge', label: 'Profissão do Cônjuge', type: 'text', required: false },
+      { name: 'rendaMensalConjuge', label: 'Renda Mensal do Cônjuge', type: 'text', required: false },
+    ]
+  },
+  {
+    title: 'Referências',
+    fields: [
+      { name: 'referenciaNome1', label: 'Nome da 1ª Referência', type: 'text', required: true },
+      { name: 'referenciaTelefone1', label: 'Telefone da 1ª Referência', type: 'tel', required: true, mask: '(99) 99999-9999' },
+      { name: 'referenciaNome2', label: 'Nome da 2ª Referência', type: 'text', required: true },
+      { name: 'referenciaTelefone2', label: 'Telefone da 2ª Referência', type: 'tel', required: true, mask: '(99) 99999-9999' },
+    ]
+  },
+  {
+    title: 'Dados Bancários',
+    fields: [
+      { name: 'banco', label: 'Banco', type: 'text', required: true },
+      { name: 'agencia', label: 'Agência', type: 'text', required: true },
+      { name: 'conta', label: 'Conta', type: 'text', required: true },
+      { name: 'tipoConta', label: 'Tipo de Conta', type: 'select', required: true, options: [
+        'Conta Corrente', 'Conta Poupança'
+      ]},
+    ]
+  }
+];
