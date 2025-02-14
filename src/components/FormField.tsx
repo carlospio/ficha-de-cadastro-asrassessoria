@@ -26,6 +26,9 @@ const getMask = (name: string, defaultMask?: string): string => {
       return '(99) 99999-9999';
     case 'cep':
       return '99999-999';
+    case 'dataNascimento':
+    case 'dataEmissao':
+      return '99/99/9999';
     default:
       return '';
   }
@@ -96,6 +99,9 @@ export default function FormField({ name, label, type, required, mask, options }
       );
     }
 
+    // Se for campo de data, usar text ao invés de date
+    const inputType = type === 'date' ? 'text' : type;
+
     if (inputMask) {
       return (
         <InputMask
@@ -105,9 +111,9 @@ export default function FormField({ name, label, type, required, mask, options }
           {(inputProps: any) => (
             <input
               {...inputProps}
-              type={type}
+              type={inputType}
               className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white text-gray-900"
-              placeholder={`Digite ${label.toLowerCase()}`}
+              placeholder={label ? `Digite ${label.toLowerCase()}` : ''}
             />
           )}
         </InputMask>
@@ -116,10 +122,10 @@ export default function FormField({ name, label, type, required, mask, options }
 
     return (
       <input
-        type={type}
+        type={inputType}
         {...register(name, validation)}
         className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white text-gray-900"
-        placeholder={`Digite ${label.toLowerCase()}`}
+        placeholder={label ? `Digite ${label.toLowerCase()}` : ''}
       />
     );
   };

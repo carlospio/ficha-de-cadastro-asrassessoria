@@ -5,7 +5,7 @@ export const formSteps: FormStep[] = [
     title: 'Dados Pessoais',
     fields: [
       { name: 'nome', label: 'Nome Completo', type: 'text', required: true },
-      { name: 'dataNascimento', label: 'Data de Nascimento', type: 'date', required: true },
+      { name: 'dataNascimento', label: 'Data de Nascimento', type: 'date', required: true, mask: '99/99/9999' },
       { name: 'estadoCivil', label: 'Estado Civil', type: 'select', required: true, options: [
         'Solteiro(a)', 'Casado(a)', 'Divorciado(a)', 'Viúvo(a)', 'União Estável'
       ]},
@@ -14,7 +14,7 @@ export const formSteps: FormStep[] = [
       { name: 'cpf', label: 'CPF', type: 'text', required: true, mask: '999.999.999-99' },
       { name: 'rg', label: 'RG', type: 'text', required: true },
       { name: 'orgaoEmissor', label: 'Órgão Emissor', type: 'text', required: false },
-      { name: 'dataEmissao', label: 'Data de Emissão', type: 'date', required: false },
+      { name: 'dataEmissao', label: 'Data de Emissão', type: 'date', required: false, mask: '99/99/9999' },
     ]
   },
   {
