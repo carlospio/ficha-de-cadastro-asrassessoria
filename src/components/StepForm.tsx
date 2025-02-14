@@ -57,23 +57,42 @@ export default function StepForm() {
       const data = methods.getValues();
       const formattedData = formatFormDataForEmail(data);
 
-      const templateParams = {
-        to_name: 'ASR Assessoria',
-        from_name: data.nome,
-        message: formattedData,
-      };
+      console.log('Enviando email com os seguintes dados:', {
+        serviceId: EMAILJS_SERVICE_ID,
+        templateId: EMAILJS_TEMPLATE_ID,
+        hasPublicKey: !!EMAILJS_PUBLIC_KEY,
+        templateParams: {
+          to_name: 'ASR Assessoria',
+          from_name: data.nome,
+          message: formattedData,
+        }
+      });
+
+      // Inicializa o EmailJS com a chave pública
+      emailjs.init(EMAILJS_PUBLIC_KEY);
 
       await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
-        templateParams,
-        EMAILJS_PUBLIC_KEY
+        {
+          to_name: 'ASR Assessoria',
+          from_name: data.nome,
+          message: formattedData,
+        }
       );
 
       setIsSubmitted(true);
     } catch (error) {
-      console.error('Error sending email:', error);
-      setSubmitError('Ocorreu um erro ao enviar o formulário. Por favor, tente novamente.');
+      console.error('Erro detalhado ao enviar email:', error);
+      let errorMessage = 'Ocorreu um erro ao enviar o formulário. ';
+      
+      if (error instanceof Error) {
+        errorMessage += error.message;
+      } else if (typeof error === 'string') {
+        errorMessage += error;
+      }
+      
+      setSubmitError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
