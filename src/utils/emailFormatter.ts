@@ -3,7 +3,7 @@ import { FormData } from '@/types/form';
 export const formatFormDataForEmail = (data: FormData): string => {
   const sections = [
     {
-      title: 'DADOS PESSOAIS',
+      title: 'Dados Pessoais',
       fields: [
         { label: 'Nome Completo', value: data.nome },
         { label: 'Data de Nascimento', value: data.dataNascimento },
@@ -15,9 +15,21 @@ export const formatFormDataForEmail = (data: FormData): string => {
         { label: 'Órgão Emissor', value: data.orgaoEmissor },
         { label: 'Data de Emissão', value: data.dataEmissao },
       ]
-    },
+    }
+  ];
+
+  // Adiciona seção do cônjuge apenas se for casado ou união estável
+  if (data.estadoCivil === 'Casado(a)' || data.estadoCivil === 'União Estável') {
+    sections[0].fields.push(
+      { label: 'Nome do Cônjuge', value: data.nomeConjuge },
+      { label: 'CPF do Cônjuge', value: data.cpfConjuge },
+      { label: 'Data de Nascimento do Cônjuge', value: data.dataNascimentoConjuge }
+    );
+  }
+
+  sections.push(
     {
-      title: 'ENDEREÇO E CONTATO',
+      title: 'Endereço e Contato',
       fields: [
         { label: 'Endereço', value: data.endereco },
         { label: 'Número', value: data.numero },
@@ -32,7 +44,7 @@ export const formatFormDataForEmail = (data: FormData): string => {
       ]
     },
     {
-      title: 'DADOS PROFISSIONAIS',
+      title: 'Dados Profissionais',
       fields: [
         { label: 'Profissão', value: data.profissao },
         { label: 'Empresa', value: data.empresa },
@@ -42,40 +54,31 @@ export const formatFormDataForEmail = (data: FormData): string => {
       ]
     },
     {
-      title: 'DADOS DO CÔNJUGE',
+      title: 'Dados do Financiamento',
       fields: [
-        { label: 'Nome do Cônjuge', value: data.nomeConjuge },
-        { label: 'CPF do Cônjuge', value: data.cpfConjuge },
-        { label: 'Profissão do Cônjuge', value: data.profissaoConjuge },
-        { label: 'Renda Mensal do Cônjuge', value: data.rendaMensalConjuge },
-      ]
-    },
-    {
-      title: 'DADOS DO FINANCIAMENTO',
-      fields: [
-        { label: 'Preço estimado do imóvel', value: data.precoImovel },
-        { label: 'Valor pretendido para financiamento', value: data.valorFinanciamento },
-        { label: 'Prazo do financiamento', value: data.prazoFinanciamento },
+        { label: 'Preço do Imóvel', value: data.precoImovel },
+        { label: 'Valor do Financiamento', value: data.valorFinanciamento },
+        { label: 'Prazo do Financiamento', value: data.prazoFinanciamento },
         { label: 'Incluir ITBI', value: data.incluirITBI ? 'Sim' : 'Não' },
-        { label: 'Bancos de preferência', value: data.bancosPreferencia },
+        { label: 'Bancos de Preferência', value: data.bancosPreferencia },
       ]
     }
-  ];
+  );
 
-  let emailBody = 'FICHA DE CADASTRO - ASR ASSESSORIA\n\n';
+  let emailContent = 'FICHA DE CADASTRO - ASR ASSESSORIA\n\n';
 
   sections.forEach(section => {
-    emailBody += `${section.title}\n`;
-    emailBody += ''.padEnd(50, '-') + '\n';
-    
+    emailContent += `\n${section.title}\n`;
+    emailContent += ''.padEnd(section.title.length, '=') + '\n\n';
+
     section.fields.forEach(field => {
       if (field.value) {
-        emailBody += `${field.label}: ${field.value}\n`;
+        emailContent += `${field.label}: ${field.value}\n`;
       }
     });
-    
-    emailBody += '\n';
+
+    emailContent += '\n';
   });
 
-  return emailBody;
+  return emailContent;
 };

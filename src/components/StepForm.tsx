@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { FormData } from '@/types/form';
 import { formSteps } from '@/utils/formConfig';
-import { sampleData } from '@/utils/sampleData';
 import ProgressBar from './ProgressBar';
 import FormField from './FormField';
 import ReviewStep from './ReviewStep';
@@ -52,10 +51,6 @@ export default function StepForm() {
   const handleEdit = (step: number) => {
     setCurrentStep(step);
     setIsReviewing(false);
-  };
-
-  const handleFillSampleData = () => {
-    reset(sampleData);
   };
 
   const handleFinalSubmit = async () => {
@@ -128,15 +123,6 @@ export default function StepForm() {
               <h2 className="text-2xl font-bold text-gray-900">
                 {formSteps[currentStep].title}
               </h2>
-              {currentStep === 0 && (
-                <button
-                  type="button"
-                  onClick={handleFillSampleData}
-                  className="px-4 py-2 text-sm font-medium text-white bg-gray-500 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                >
-                  Preencher Teste
-                </button>
-              )}
             </div>
 
             <FormProvider {...methods}>
