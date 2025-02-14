@@ -10,21 +10,23 @@ export const formSteps: FormStep[] = [
         'Solteiro(a)', 'Casado(a)', 'Divorciado(a)', 'Viúvo(a)', 'União Estável'
       ]},
       { name: 'nacionalidade', label: 'Nacionalidade', type: 'text', required: true },
-      { name: 'naturalidade', label: 'Naturalidade', type: 'text', required: true },
+      { name: 'naturalidade', label: 'Naturalidade', type: 'text', required: false },
       { name: 'cpf', label: 'CPF', type: 'text', required: true, mask: '999.999.999-99' },
       { name: 'rg', label: 'RG', type: 'text', required: true },
-      { name: 'orgaoEmissor', label: 'Órgão Emissor', type: 'text', required: true },
-      { name: 'dataEmissao', label: 'Data de Emissão', type: 'date', required: true },
+      { name: 'orgaoEmissor', label: 'Órgão Emissor', type: 'text', required: false },
+      { name: 'dataEmissao', label: 'Data de Emissão', type: 'date', required: false },
     ]
   },
   {
     title: 'Endereço e Contato',
     fields: [
       { name: 'endereco', label: 'Endereço', type: 'text', required: true },
-      { name: 'bairro', label: 'Bairro', type: 'text', required: true },
-      { name: 'cidade', label: 'Cidade', type: 'text', required: true },
-      { name: 'estado', label: 'Estado', type: 'text', required: true },
-      { name: 'cep', label: 'CEP', type: 'text', required: true, mask: '99999-999' },
+      { name: 'numero', label: 'Número', type: 'text', required: true },
+      { name: 'complemento', label: 'Complemento', type: 'text', required: false },
+      { name: 'bairro', label: 'Bairro', type: 'text', required: false },
+      { name: 'cidade', label: 'Cidade', type: 'text', required: false },
+      { name: 'estado', label: 'Estado', type: 'text', required: false },
+      { name: 'cep', label: 'CEP', type: 'text', required: false, mask: '99999-999' },
       { name: 'telefone', label: 'Telefone', type: 'tel', required: false, mask: '(99) 9999-9999' },
       { name: 'celular', label: 'Celular', type: 'tel', required: true, mask: '(99) 99999-9999' },
       { name: 'email', label: 'E-mail', type: 'email', required: true },
@@ -37,7 +39,7 @@ export const formSteps: FormStep[] = [
       { name: 'empresa', label: 'Empresa', type: 'text', required: true },
       { name: 'cargo', label: 'Cargo', type: 'text', required: true },
       { name: 'rendaMensal', label: 'Renda Mensal', type: 'text', required: true },
-      { name: 'tempoServico', label: 'Tempo de Serviço', type: 'text', required: true },
+      { name: 'tempoServico', label: 'Tempo de Serviço', type: 'text', required: false },
     ]
   },
   {
@@ -50,23 +52,13 @@ export const formSteps: FormStep[] = [
     ]
   },
   {
-    title: 'Referências',
+    title: 'Dados do Financiamento',
     fields: [
-      { name: 'referenciaNome1', label: 'Nome da 1ª Referência', type: 'text', required: true },
-      { name: 'referenciaTelefone1', label: 'Telefone da 1ª Referência', type: 'tel', required: true, mask: '(99) 99999-9999' },
-      { name: 'referenciaNome2', label: 'Nome da 2ª Referência', type: 'text', required: true },
-      { name: 'referenciaTelefone2', label: 'Telefone da 2ª Referência', type: 'tel', required: true, mask: '(99) 99999-9999' },
-    ]
-  },
-  {
-    title: 'Dados Bancários',
-    fields: [
-      { name: 'banco', label: 'Banco', type: 'text', required: true },
-      { name: 'agencia', label: 'Agência', type: 'text', required: true },
-      { name: 'conta', label: 'Conta', type: 'text', required: true },
-      { name: 'tipoConta', label: 'Tipo de Conta', type: 'select', required: true, options: [
-        'Conta Corrente', 'Conta Poupança'
-      ]},
+      { name: 'precoImovel', label: 'Preço estimado do imóvel (R$)', type: 'text', required: true },
+      { name: 'valorFinanciamento', label: 'Valor pretendido para financiamento (R$)', type: 'text', required: true },
+      { name: 'prazoFinanciamento', label: 'Prazo do financiamento', type: 'text', required: true },
+      { name: 'incluirITBI', label: 'Incluir ITBI', type: 'checkbox', required: true },
+      { name: 'bancosPreferencia', label: 'Bancos de preferência', type: 'text', required: true },
     ]
   }
 ];

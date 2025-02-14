@@ -1,5 +1,7 @@
 import { useFormContext } from 'react-hook-form';
 import { FormData } from '@/types/form';
+import InputMask from 'react-input-mask';
+import { validateCPF, validateRG, validatePhone, validateCellPhone, validateEmail, validateCurrency } from '@/utils/validation';
 
 interface FormFieldProps {
   name: keyof FormData;
@@ -10,14 +12,68 @@ interface FormFieldProps {
   options?: string[];
 }
 
+const getMask = (name: string, defaultMask?: string): string => {
+  if (defaultMask) return defaultMask;
+
+  switch (name) {
+    case 'cpf':
+      return '999.999.999-99';
+    case 'rg':
+      return '99.999.999-*';
+    case 'telefone':
+      return '(99) 9999-9999';
+    case 'celular':
+      return '(99) 99999-9999';
+    case 'cep':
+      return '99999-999';
+    default:
+      return '';
+  }
+};
+
+const getValidation = (name: string, required: boolean) => {
+  const rules: any = {
+    required: required ? 'Este campo é obrigatório' : false,
+  };
+
+  switch (name) {
+    case 'cpf':
+      rules.validate = validateCPF;
+      break;
+    case 'rg':
+      rules.validate = validateRG;
+      break;
+    case 'telefone':
+      rules.validate = validatePhone;
+      break;
+    case 'celular':
+      rules.validate = validateCellPhone;
+      break;
+    case 'email':
+      rules.validate = validateEmail;
+      break;
+    case 'precoImovel':
+    case 'valorFinanciamento':
+    case 'rendaMensal':
+    case 'rendaMensalConjuge':
+      rules.validate = validateCurrency;
+      break;
+  }
+
+  return rules;
+};
+
 export default function FormField({ name, label, type, required, mask, options }: FormFieldProps) {
   const { register, formState: { errors } } = useFormContext<FormData>();
+  const error = errors[name]?.message as string;
+  const inputMask = getMask(name, mask);
+  const validation = getValidation(name, required);
 
   const renderField = () => {
     if (type === 'select' && options) {
       return (
         <select
-          {...register(name, { required: required ? `${label} é obrigatório` : false })}
+          {...register(name, validation)}
           className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white text-gray-900"
         >
           <option value="">Selecione...</option>
@@ -30,17 +86,40 @@ export default function FormField({ name, label, type, required, mask, options }
       );
     }
 
+    if (type === 'checkbox') {
+      return (
+        <input
+          type="checkbox"
+          {...register(name, validation)}
+          className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+        />
+      );
+    }
+
+    if (inputMask) {
+      return (
+        <InputMask
+          mask={inputMask}
+          {...register(name, validation)}
+        >
+          {(inputProps: any) => (
+            <input
+              {...inputProps}
+              type={type}
+              className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white text-gray-900"
+              placeholder={`Digite ${label.toLowerCase()}`}
+            />
+          )}
+        </InputMask>
+      );
+    }
+
     return (
       <input
         type={type}
-        {...register(name, {
-          required: required ? `${label} é obrigatório` : false,
-          pattern: type === 'email' ? {
-            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-            message: 'E-mail inválido'
-          } : undefined
-        })}
+        {...register(name, validation)}
         className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white text-gray-900"
+        placeholder={`Digite ${label.toLowerCase()}`}
       />
     );
   };
@@ -52,9 +131,9 @@ export default function FormField({ name, label, type, required, mask, options }
         {required && <span className="text-red-400 ml-1">*</span>}
       </label>
       {renderField()}
-      {errors[name] && (
+      {error && (
         <p className="mt-1 text-sm text-red-400">
-          {errors[name]?.message as string}
+          {error}
         </p>
       )}
     </div>

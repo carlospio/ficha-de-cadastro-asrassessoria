@@ -6,10 +6,22 @@ import { sampleData } from '@/utils/sampleData';
 import ProgressBar from './ProgressBar';
 import FormField from './FormField';
 import ReviewStep from './ReviewStep';
+import SuccessMessage from './SuccessMessage';
+import emailjs from '@emailjs/browser';
+import { formatFormDataForEmail } from '@/utils/emailFormatter';
+
+// Substitua estas constantes pelos seus valores do EmailJS
+const EMAILJS_SERVICE_ID = 'service_k13hl2o';
+const EMAILJS_TEMPLATE_ID = 'template_vubhbnl';
+const EMAILJS_PUBLIC_KEY = 'zIubvbu-9AetnQGKc';
+const RECIPIENT_EMAIL = 'carlospiobenicio@gmail.com';
 
 export default function StepForm() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isReviewing, setIsReviewing] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const methods = useForm<FormData>();
   const { handleSubmit, reset } = methods;
 
@@ -38,11 +50,38 @@ export default function StepForm() {
     reset(sampleData);
   };
 
-  const handleFinalSubmit = () => {
-    const data = methods.getValues();
-    console.log('Form submitted:', data);
-    alert('Formulário enviado com sucesso!');
+  const handleFinalSubmit = async () => {
+    try {
+      setIsSubmitting(true);
+      setSubmitError(null);
+      const data = methods.getValues();
+      const formattedData = formatFormDataForEmail(data);
+
+      const templateParams = {
+        to_name: 'ASR Assessoria',
+        from_name: data.nome,
+        message: formattedData,
+      };
+
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      );
+
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setSubmitError('Ocorreu um erro ao enviar o formulário. Por favor, tente novamente.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  if (isSubmitted) {
+    return <SuccessMessage />;
+  }
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -120,10 +159,17 @@ export default function StepForm() {
             </button>
             <button
               onClick={handleFinalSubmit}
-              className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+              disabled={isSubmitting}
+              className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Enviar
+              {isSubmitting ? 'Enviando...' : 'Enviar'}
             </button>
+          </div>
+        )}
+
+        {submitError && (
+          <div className="mt-4 p-4 bg-red-50 rounded-md">
+            <p className="text-sm text-red-600">{submitError}</p>
           </div>
         )}
       </div>

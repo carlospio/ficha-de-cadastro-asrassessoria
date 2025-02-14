@@ -13,7 +13,9 @@ export const sampleData: FormData = {
   dataEmissao: '2010-01-01',
   
   // Endereço
-  endereco: 'Rua das Flores, 123',
+  endereco: 'Rua das Flores',
+  numero: '123',
+  complemento: 'Apto 45',
   bairro: 'Centro',
   cidade: 'São Paulo',
   estado: 'SP',
@@ -35,15 +37,10 @@ export const sampleData: FormData = {
   profissaoConjuge: 'Advogada',
   rendaMensalConjuge: 'R$ 7.000,00',
   
-  // Referências
-  referenciaNome1: 'Carlos Oliveira',
-  referenciaTelefone1: '(11) 98888-7777',
-  referenciaNome2: 'Ana Santos',
-  referenciaTelefone2: '(11) 97777-6666',
-  
-  // Dados Bancários
-  banco: 'Banco XYZ',
-  agencia: '1234',
-  conta: '12345-6',
-  tipoConta: 'Conta Corrente',
+  // Dados do Financiamento
+  precoImovel: 'R$ 500.000,00',
+  valorFinanciamento: 'R$ 400.000,00',
+  prazoFinanciamento: '30 anos',
+  incluirITBI: true,
+  bancosPreferencia: 'Caixa Econômica Federal, Banco do Brasil',
 };
