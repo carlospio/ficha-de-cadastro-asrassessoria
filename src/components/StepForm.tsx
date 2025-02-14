@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { FormData } from '@/types/form';
 import { formSteps } from '@/utils/formConfig';
@@ -16,6 +16,14 @@ const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '';
 const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || '';
 const RECIPIENT_EMAIL = process.env.NEXT_PUBLIC_RECIPIENT_EMAIL || '';
 
+// Log das variáveis de ambiente
+console.log('Variáveis de ambiente:', {
+  EMAILJS_SERVICE_ID,
+  EMAILJS_TEMPLATE_ID,
+  EMAILJS_PUBLIC_KEY,
+  RECIPIENT_EMAIL
+});
+
 export default function StepForm() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isReviewing, setIsReviewing] = useState(false);
@@ -24,6 +32,15 @@ export default function StepForm() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const methods = useForm<FormData>();
   const { handleSubmit, reset } = methods;
+
+  // Inicializa o EmailJS quando o componente montar
+  useEffect(() => {
+    if (EMAILJS_PUBLIC_KEY) {
+      emailjs.init({
+        publicKey: EMAILJS_PUBLIC_KEY,
+      });
+    }
+  }, []);
 
   const onSubmit = (data: FormData) => {
     if (currentStep === formSteps.length - 1) {
@@ -66,11 +83,6 @@ export default function StepForm() {
           from_name: data.nome,
           message: formattedData,
         }
-      });
-
-      // Inicializa o EmailJS com a chave pública
-      emailjs.init({
-        publicKey: EMAILJS_PUBLIC_KEY,
       });
 
       await emailjs.send(
