@@ -69,7 +69,9 @@ export default function StepForm() {
       });
 
       // Inicializa o EmailJS com a chave pública
-      emailjs.init(EMAILJS_PUBLIC_KEY);
+      emailjs.init({
+        publicKey: EMAILJS_PUBLIC_KEY,
+      });
 
       await emailjs.send(
         EMAILJS_SERVICE_ID,
