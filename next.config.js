@@ -4,8 +4,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: '/ficha-de-cadastro-asrassessoria',
-  assetPrefix: '/ficha-de-cadastro-asrassessoria',
+  basePath: '/cadastro',
+  assetPrefix: '/cadastro',
 }
 
 module.exports = nextConfig
