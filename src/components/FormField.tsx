@@ -12,6 +12,23 @@ interface FormFieldProps {
   options?: string[];
 }
 
+const formatCurrency = (value: string): string => {
+  // Remove todos os caracteres não numéricos
+  const numericValue = value.replace(/\D/g, '');
+  
+  // Se não houver valor, retorna vazio
+  if (!numericValue) return '';
+  
+  // Converte para número e divide por 100 para considerar os centavos
+  const numberValue = Number(numericValue) / 100;
+  
+  // Formata o número para o formato de moeda brasileiro
+  return numberValue.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  });
+};
+
 const getMask = (name: string, defaultMask?: string): string => {
   if (defaultMask) return defaultMask;
 
@@ -29,9 +46,23 @@ const getMask = (name: string, defaultMask?: string): string => {
     case 'dataNascimento':
     case 'dataEmissao':
       return '99/99/9999';
+    case 'precoImovel':
+    case 'valorFinanciamento':
+    case 'rendaMensal':
+    case 'rendaMensalConjuge':
+      return 'currency';
     default:
       return '';
   }
+};
+
+const isCurrencyField = (name: string): boolean => {
+  return [
+    'precoImovel',
+    'valorFinanciamento',
+    'rendaMensal',
+    'rendaMensalConjuge'
+  ].includes(name);
 };
 
 const getValidation = (name: string, required: boolean) => {
@@ -67,10 +98,16 @@ const getValidation = (name: string, required: boolean) => {
 };
 
 export default function FormField({ name, label, type, required, mask, options }: FormFieldProps) {
-  const { register, formState: { errors } } = useFormContext<FormData>();
+  const { register, formState: { errors }, setValue } = useFormContext<FormData>();
   const error = errors[name]?.message as string;
   const inputMask = getMask(name, mask);
   const validation = getValidation(name, required);
+
+  const handleCurrencyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const formattedValue = formatCurrency(value);
+    setValue(name, formattedValue, { shouldValidate: true });
+  };
 
   const renderField = () => {
     if (type === 'select' && options) {
@@ -102,7 +139,19 @@ export default function FormField({ name, label, type, required, mask, options }
     // Se for campo de data, usar text ao invés de date
     const inputType = type === 'date' ? 'text' : type;
 
-    if (inputMask) {
+    if (isCurrencyField(name)) {
+      return (
+        <input
+          type="text"
+          {...register(name, validation)}
+          onChange={handleCurrencyChange}
+          className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white text-gray-900"
+          placeholder={label ? `Digite ${label.toLowerCase()}` : ''}
+        />
+      );
+    }
+
+    if (inputMask && inputMask !== 'currency') {
       return (
         <InputMask
           mask={inputMask}

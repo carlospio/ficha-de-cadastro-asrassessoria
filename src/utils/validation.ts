@@ -32,6 +32,20 @@ export const validateEmail = (value: string) => {
 
 export const validateCurrency = (value: string) => {
   if (!value) return 'Valor é obrigatório';
-  const cleanValue = value.replace(/[^\d,]/g, '');
-  return cleanValue.length > 0 ? true : 'Valor inválido';
+  
+  // Remove R$, pontos e espaços, deixando apenas números e vírgula
+  const cleanValue = value.replace(/[R$\s.]/g, '');
+  
+  // Verifica se é um valor monetário válido (com ou sem centavos)
+  const currencyRegex = /^\d+(?:,\d{2})?$/;
+  
+  if (!currencyRegex.test(cleanValue)) {
+    return 'Valor inválido';
+  }
+  
+  // Converte para número (substituindo vírgula por ponto)
+  const numericValue = Number(cleanValue.replace(',', '.'));
+  
+  // Verifica se é um valor positivo
+  return numericValue > 0 ? true : 'O valor deve ser maior que zero';
 };
