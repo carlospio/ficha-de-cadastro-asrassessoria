@@ -18,7 +18,7 @@ export default function FormField({ name, label, type, required, mask, options }
       return (
         <select
           {...register(name, { required: required ? `${label} é obrigatório` : false })}
-          className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+          className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white text-gray-900"
         >
           <option value="">Selecione...</option>
           {options.map((option) => (
@@ -40,7 +40,7 @@ export default function FormField({ name, label, type, required, mask, options }
             message: 'E-mail inválido'
           } : undefined
         })}
-        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white text-gray-900"
       />
     );
   };
@@ -49,12 +49,12 @@ export default function FormField({ name, label, type, required, mask, options }
     <div className="mb-4">
       <label className="block text-sm font-medium text-gray-700 mb-1">
         {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {required && <span className="text-red-400 ml-1">*</span>}
       </label>
       {renderField()}
       {errors[name] && (
-        <p className="mt-1 text-sm text-red-600">
-          {errors[name]?.message}
+        <p className="mt-1 text-sm text-red-400">
+          {errors[name]?.message as string}
         </p>
       )}
     </div>

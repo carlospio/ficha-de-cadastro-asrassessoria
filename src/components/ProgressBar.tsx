@@ -8,13 +8,13 @@ export default function ProgressBar({ currentStep, totalSteps }: ProgressBarProp
 
   return (
     <div className="w-full">
-      <div className="w-full h-2 bg-gray-200 rounded-full">
+      <div className="w-full h-2 bg-white/20 rounded-full">
         <div
-          className="h-full bg-primary rounded-full transition-all duration-300 ease-in-out"
+          className="h-full bg-white rounded-full transition-all duration-300 ease-in-out"
           style={{ width: `${progress}%` }}
         />
       </div>
-      <div className="mt-2 text-sm text-gray-600 text-center">
+      <div className="mt-2 text-sm text-white/90 text-center">
         Etapa {currentStep + 1} de {totalSteps}
       </div>
     </div>

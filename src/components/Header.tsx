@@ -5,21 +5,20 @@ import Link from 'next/link';
 
 export default function Header() {
   return (
-    <header className="bg-primary">
+    <header className="bg-primary w-full top-0 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <div className="flex-shrink-0">
-            <div className="relative w-40 h-12">
-              <Image
-                src="/logo-white.png"
-                alt="ASR Assessoria Logo"
-                fill
-                style={{ objectFit: 'contain' }}
-                priority
-              />
-            </div>
-          </div>
+          <Link href="/" className="flex-shrink-0">
+            <Image
+              src="/ficha-de-cadastro-asrassessoria/logo-branco.png"
+              alt="ASR Assessoria Logo"
+              width={160}
+              height={48}
+              className="h-12 w-auto"
+              priority
+            />
+          </Link>
 
           {/* Navigation */}
           <nav className="flex space-x-8">

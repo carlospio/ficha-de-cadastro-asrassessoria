@@ -2,72 +2,130 @@ import { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { FormData } from '@/types/form';
 import { formSteps } from '@/utils/formConfig';
+import { sampleData } from '@/utils/sampleData';
 import ProgressBar from './ProgressBar';
 import FormField from './FormField';
+import ReviewStep from './ReviewStep';
 
 export default function StepForm() {
   const [currentStep, setCurrentStep] = useState(0);
+  const [isReviewing, setIsReviewing] = useState(false);
   const methods = useForm<FormData>();
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
   const onSubmit = (data: FormData) => {
     if (currentStep === formSteps.length - 1) {
-      console.log('Form submitted:', data);
-      // Aqui você pode enviar os dados para sua API
-      alert('Formulário enviado com sucesso!');
+      setIsReviewing(true);
     } else {
       setCurrentStep((prev) => prev + 1);
     }
   };
 
   const handlePrevious = () => {
-    setCurrentStep((prev) => prev - 1);
+    if (isReviewing) {
+      setIsReviewing(false);
+    } else {
+      setCurrentStep((prev) => prev - 1);
+    }
+  };
+
+  const handleEdit = (step: number) => {
+    setCurrentStep(step);
+    setIsReviewing(false);
+  };
+
+  const handleFillSampleData = () => {
+    reset(sampleData);
+  };
+
+  const handleFinalSubmit = () => {
+    const data = methods.getValues();
+    console.log('Form submitted:', data);
+    alert('Formulário enviado com sucesso!');
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="mb-8">
         <ProgressBar
-          currentStep={currentStep}
-          totalSteps={formSteps.length}
+          currentStep={isReviewing ? formSteps.length : currentStep}
+          totalSteps={formSteps.length + 1}
         />
       </div>
 
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">
-          {formSteps[currentStep].title}
-        </h2>
-
-        <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="space-y-4">
-              {formSteps[currentStep].fields.map((field) => (
-                <FormField
-                  key={field.name}
-                  {...field}
-                />
-              ))}
-            </div>
-
-            <div className="mt-8 flex justify-between">
-              {currentStep > 0 && (
+      <div className="bg-white rounded-xl shadow-xl p-8">
+        {isReviewing ? (
+          <>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Revisão dos Dados</h2>
+            <ReviewStep data={methods.getValues()} onEdit={handleEdit} />
+          </>
+        ) : (
+          <>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">
+                {formSteps[currentStep].title}
+              </h2>
+              {currentStep === 0 && (
                 <button
                   type="button"
-                  onClick={handlePrevious}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                  onClick={handleFillSampleData}
+                  className="px-4 py-2 text-sm font-medium text-white bg-gray-500 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                 >
-                  Voltar
+                  Preencher Teste
                 </button>
               )}
-              <button
-                type="submit"
-                className="ml-auto px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-              >
-                {currentStep === formSteps.length - 1 ? 'Enviar' : 'Próximo'}
-              </button>
             </div>
-          </form>
-        </FormProvider>
+
+            <FormProvider {...methods}>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="space-y-4">
+                  {formSteps[currentStep].fields.map((field) => (
+                    <FormField
+                      key={field.name}
+                      {...field}
+                    />
+                  ))}
+                </div>
+
+                <div className="mt-8 flex justify-between">
+                  {currentStep > 0 && (
+                    <button
+                      type="button"
+                      onClick={handlePrevious}
+                      className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                    >
+                      Voltar
+                    </button>
+                  )}
+                  <button
+                    type="submit"
+                    className="ml-auto px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                  >
+                    {currentStep === formSteps.length - 1 ? 'Revisar' : 'Próximo'}
+                  </button>
+                </div>
+              </form>
+            </FormProvider>
+          </>
+        )}
+
+        {isReviewing && (
+          <div className="mt-8 flex justify-between">
+            <button
+              type="button"
+              onClick={handlePrevious}
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            >
+              Voltar
+            </button>
+            <button
+              onClick={handleFinalSubmit}
+              className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+            >
+              Enviar
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
