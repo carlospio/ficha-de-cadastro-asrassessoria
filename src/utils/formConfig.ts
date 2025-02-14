@@ -37,7 +37,7 @@ export const formSteps: FormStep[] = [
     fields: [
       { name: 'profissao', label: 'Profissão', type: 'text', required: true },
       { name: 'empresa', label: 'Empresa', type: 'text', required: true },
-      { name: 'cargo', label: 'Cargo', type: 'text', required: true },
+      { name: 'cargo', label: 'Cargo', type: 'text', required: false },
       { name: 'rendaMensal', label: 'Renda Mensal', type: 'text', required: true },
       { name: 'tempoServico', label: 'Tempo de Serviço', type: 'text', required: false },
     ]
