@@ -30,6 +30,7 @@ export interface FormData {
   // Dados do Cônjuge (se casado)
   nomeConjuge?: string;
   cpfConjuge?: string;
+  dataNascimentoConjuge?: string;
   profissaoConjuge?: string;
   rendaMensalConjuge?: string;
 

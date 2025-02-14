@@ -15,6 +15,10 @@ export const formSteps: FormStep[] = [
       { name: 'rg', label: 'RG', type: 'text', required: true },
       { name: 'orgaoEmissor', label: 'Órgão Emissor', type: 'text', required: false },
       { name: 'dataEmissao', label: 'Data de Emissão', type: 'date', required: false, mask: '99/99/9999' },
+      // Campos do cônjuge (serão mostrados condicionalmente)
+      { name: 'nomeConjuge', label: 'Nome do Cônjuge', type: 'text', required: true, showWhen: 'conjugeFields' },
+      { name: 'cpfConjuge', label: 'CPF do Cônjuge', type: 'text', required: true, mask: '999.999.999-99', showWhen: 'conjugeFields' },
+      { name: 'dataNascimentoConjuge', label: 'Data de Nascimento do Cônjuge', type: 'date', required: true, mask: '99/99/9999', showWhen: 'conjugeFields' },
     ]
   },
   {
@@ -43,22 +47,13 @@ export const formSteps: FormStep[] = [
     ]
   },
   {
-    title: 'Dados do Cônjuge',
-    fields: [
-      { name: 'nomeConjuge', label: 'Nome do Cônjuge', type: 'text', required: false },
-      { name: 'cpfConjuge', label: 'CPF do Cônjuge', type: 'text', required: false, mask: '999.999.999-99' },
-      { name: 'profissaoConjuge', label: 'Profissão do Cônjuge', type: 'text', required: false },
-      { name: 'rendaMensalConjuge', label: 'Renda Mensal do Cônjuge', type: 'text', required: false },
-    ]
-  },
-  {
     title: 'Dados do Financiamento',
     fields: [
-      { name: 'precoImovel', label: 'Preço estimado do imóvel (R$)', type: 'text', required: true },
-      { name: 'valorFinanciamento', label: 'Valor pretendido para financiamento (R$)', type: 'text', required: true },
-      { name: 'prazoFinanciamento', label: 'Prazo do financiamento', type: 'text', required: true },
+      { name: 'precoImovel', label: 'Preço do Imóvel', type: 'text', required: true },
+      { name: 'valorFinanciamento', label: 'Valor do Financiamento', type: 'text', required: true },
+      { name: 'prazoFinanciamento', label: 'Prazo do Financiamento', type: 'text', required: true },
       { name: 'incluirITBI', label: 'Incluir ITBI', type: 'select', required: true, options: ['Sim', 'Não'] },
-      { name: 'bancosPreferencia', label: 'Bancos de preferência', type: 'text', required: true },
+      { name: 'bancosPreferencia', label: 'Bancos de Preferência', type: 'text', required: false },
     ]
   }
 ];

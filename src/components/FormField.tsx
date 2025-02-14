@@ -1,4 +1,4 @@
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { FormData } from '@/types/form';
 import InputMask from 'react-input-mask';
 import { validateCPF, validateRG, validatePhone, validateCellPhone, validateEmail, validateCurrency } from '@/utils/validation';
@@ -10,6 +10,7 @@ interface FormFieldProps {
   required: boolean;
   mask?: string;
   options?: string[];
+  showWhen?: string;
 }
 
 const formatCurrency = (value: string): string => {
@@ -34,6 +35,7 @@ const getMask = (name: string, defaultMask?: string): string => {
 
   switch (name) {
     case 'cpf':
+    case 'cpfConjuge':
       return '999.999.999-99';
     case 'rg':
       return '99.999.999-*';
@@ -45,6 +47,7 @@ const getMask = (name: string, defaultMask?: string): string => {
       return '99999-999';
     case 'dataNascimento':
     case 'dataEmissao':
+    case 'dataNascimentoConjuge':
       return '99/99/9999';
     case 'precoImovel':
     case 'valorFinanciamento':
@@ -72,6 +75,7 @@ const getValidation = (name: string, required: boolean) => {
 
   switch (name) {
     case 'cpf':
+    case 'cpfConjuge':
       rules.validate = validateCPF;
       break;
     case 'rg':
@@ -97,11 +101,24 @@ const getValidation = (name: string, required: boolean) => {
   return rules;
 };
 
-export default function FormField({ name, label, type, required, mask, options }: FormFieldProps) {
-  const { register, formState: { errors }, setValue } = useFormContext<FormData>();
+const shouldShowConjugeFields = (estadoCivil: string | undefined): boolean => {
+  return estadoCivil === 'Casado(a)' || estadoCivil === 'União Estável';
+};
+
+export default function FormField({ name, label, type, required, mask, options, showWhen }: FormFieldProps) {
+  const { register, formState: { errors }, setValue, watch } = useFormContext<FormData>();
   const error = errors[name]?.message as string;
   const inputMask = getMask(name, mask);
   const validation = getValidation(name, required);
+  const estadoCivil = watch('estadoCivil');
+
+  // Se o campo for condicional e a condição não for atendida, não renderiza
+  if (showWhen === 'conjugeFields' && !shouldShowConjugeFields(estadoCivil)) {
+    return null;
+  }
+
+  // Se for o primeiro campo do cônjuge, adiciona um título
+  const isFirstConjugeField = name === 'nomeConjuge' && shouldShowConjugeFields(estadoCivil);
 
   const handleCurrencyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -180,17 +197,25 @@ export default function FormField({ name, label, type, required, mask, options }
   };
 
   return (
-    <div className="mb-4">
-      <label className="block text-sm font-medium text-gray-700 mb-1">
-        {label}
-        {required && <span className="text-red-400 ml-1">*</span>}
-      </label>
-      {renderField()}
-      {error && (
-        <p className="mt-1 text-sm text-red-400">
-          {error}
-        </p>
+    <>
+      {isFirstConjugeField && (
+        <div className="mt-8 mb-4">
+          <h3 className="text-lg font-semibold text-gray-900">Dados do Cônjuge</h3>
+          <div className="h-px bg-gray-200 mt-2"></div>
+        </div>
       )}
-    </div>
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          {label}
+          {required && <span className="text-red-400 ml-1">*</span>}
+        </label>
+        {renderField()}
+        {error && (
+          <p className="mt-1 text-sm text-red-400">
+            {error}
+          </p>
+        )}
+      </div>
+    </>
   );
 }
