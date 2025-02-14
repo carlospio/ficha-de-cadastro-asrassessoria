@@ -11,10 +11,10 @@ import emailjs from '@emailjs/browser';
 import { formatFormDataForEmail } from '@/utils/emailFormatter';
 
 // Substitua estas constantes pelos seus valores do EmailJS
-const EMAILJS_SERVICE_ID = 'service_k13hl2o';
-const EMAILJS_TEMPLATE_ID = 'template_vubhbnl';
-const EMAILJS_PUBLIC_KEY = 'zIubvbu-9AetnQGKc';
-const RECIPIENT_EMAIL = 'carlospiobenicio@gmail.com';
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '';
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '';
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || '';
+const RECIPIENT_EMAIL = process.env.NEXT_PUBLIC_RECIPIENT_EMAIL || '';
 
 export default function StepForm() {
   const [currentStep, setCurrentStep] = useState(0);
