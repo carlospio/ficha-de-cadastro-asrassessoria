@@ -10,19 +10,12 @@ import SuccessMessage from './SuccessMessage';
 import emailjs from '@emailjs/browser';
 import { formatFormDataForEmail } from '@/utils/emailFormatter';
 
-// Substitua estas constantes pelos seus valores do EmailJS
-const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '';
-const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '';
-const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || '';
-const RECIPIENT_EMAIL = process.env.NEXT_PUBLIC_RECIPIENT_EMAIL || '';
-
-// Log das variáveis de ambiente
-console.log('Variáveis de ambiente:', {
-  EMAILJS_SERVICE_ID,
-  EMAILJS_TEMPLATE_ID,
-  EMAILJS_PUBLIC_KEY,
-  RECIPIENT_EMAIL
-});
+// EmailJS configuration
+const EMAILJS_CONFIG = {
+  serviceId: 'service_k13hl2o',
+  templateId: 'template_vubhbnl',
+  publicKey: 'zIubvbu-9AetnQGKc',
+};
 
 export default function StepForm() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -35,11 +28,9 @@ export default function StepForm() {
 
   // Inicializa o EmailJS quando o componente montar
   useEffect(() => {
-    if (EMAILJS_PUBLIC_KEY) {
-      emailjs.init({
-        publicKey: EMAILJS_PUBLIC_KEY,
-      });
-    }
+    emailjs.init({
+      publicKey: EMAILJS_CONFIG.publicKey,
+    });
   }, []);
 
   const onSubmit = (data: FormData) => {
@@ -75,9 +66,9 @@ export default function StepForm() {
       const formattedData = formatFormDataForEmail(data);
 
       console.log('Enviando email com os seguintes dados:', {
-        serviceId: EMAILJS_SERVICE_ID,
-        templateId: EMAILJS_TEMPLATE_ID,
-        hasPublicKey: !!EMAILJS_PUBLIC_KEY,
+        serviceId: EMAILJS_CONFIG.serviceId,
+        templateId: EMAILJS_CONFIG.templateId,
+        hasPublicKey: !!EMAILJS_CONFIG.publicKey,
         templateParams: {
           to_name: 'ASR Assessoria',
           from_name: data.nome,
@@ -86,8 +77,8 @@ export default function StepForm() {
       });
 
       await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
+        EMAILJS_CONFIG.serviceId,
+        EMAILJS_CONFIG.templateId,
         {
           to_name: 'ASR Assessoria',
           from_name: data.nome,
