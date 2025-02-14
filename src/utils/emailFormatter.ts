@@ -21,9 +21,9 @@ export const formatFormDataForEmail = (data: FormData): string => {
   // Adiciona seção do cônjuge apenas se for casado ou união estável
   if (data.estadoCivil === 'Casado(a)' || data.estadoCivil === 'União Estável') {
     sections[0].fields.push(
-      { label: 'Nome do Cônjuge', value: data.nomeConjuge },
-      { label: 'CPF do Cônjuge', value: data.cpfConjuge },
-      { label: 'Data de Nascimento do Cônjuge', value: data.dataNascimentoConjuge }
+      { label: 'Nome do Cônjuge', value: data.nomeConjuge ?? '' },
+      { label: 'CPF do Cônjuge', value: data.cpfConjuge ?? '' },
+      { label: 'Data de Nascimento do Cônjuge', value: data.dataNascimentoConjuge ?? '' }
     );
   }
 
