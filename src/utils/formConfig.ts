@@ -57,7 +57,7 @@ export const formSteps: FormStep[] = [
       { name: 'precoImovel', label: 'Preço estimado do imóvel (R$)', type: 'text', required: true },
       { name: 'valorFinanciamento', label: 'Valor pretendido para financiamento (R$)', type: 'text', required: true },
       { name: 'prazoFinanciamento', label: 'Prazo do financiamento', type: 'text', required: true },
-      { name: 'incluirITBI', label: 'Incluir ITBI', type: 'checkbox', required: true },
+      { name: 'incluirITBI', label: 'Incluir ITBI', type: 'select', required: true, options: ['Sim', 'Não'] },
       { name: 'bancosPreferencia', label: 'Bancos de preferência', type: 'text', required: true },
     ]
   }
