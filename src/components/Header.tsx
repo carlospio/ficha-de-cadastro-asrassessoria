@@ -11,7 +11,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
             <Image
-              src="/ficha-de-cadastro-asrassessoria/logo-branco.png"
+              src="/logo-branco.png"
               alt="ASR Assessoria Logo"
               width={160}
               height={48}
