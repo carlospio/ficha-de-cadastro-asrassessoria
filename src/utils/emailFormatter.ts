@@ -23,7 +23,8 @@ export const formatFormDataForEmail = (data: FormData): string => {
     sections[0].fields.push(
       { label: 'Nome do Cônjuge', value: data.nomeConjuge ?? '' },
       { label: 'CPF do Cônjuge', value: data.cpfConjuge ?? '' },
-      { label: 'Data de Nascimento do Cônjuge', value: data.dataNascimentoConjuge ?? '' }
+      { label: 'Data de Nascimento do Cônjuge', value: data.dataNascimentoConjuge ?? '' },
+      { label: 'Renda Mensal do Cônjuge', value: data.rendaMensalConjuge ?? '' },
     );
   }
 
