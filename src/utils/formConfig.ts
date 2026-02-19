@@ -13,6 +13,7 @@ export const formSteps: FormStep[] = [
       { name: 'naturalidade', label: 'Naturalidade', type: 'text', required: false },
       { name: 'cpf', label: 'CPF', type: 'text', required: true, mask: '999.999.999-99' },
       { name: 'rg', label: 'RG', type: 'text', required: true },
+      { name: 'rne', label: 'RNE', type: 'text', required: false },
       { name: 'orgaoEmissor', label: 'Órgão Emissor', type: 'text', required: false },
       { name: 'dataEmissao', label: 'Data de Emissão', type: 'date', required: false, mask: '99/99/9999' },
       // Campos do cônjuge (serão mostrados condicionalmente)
@@ -20,6 +21,8 @@ export const formSteps: FormStep[] = [
       { name: 'cpfConjuge', label: 'CPF do Cônjuge', type: 'text', required: true, mask: '999.999.999-99', showWhen: 'conjugeFields' },
       { name: 'dataNascimentoConjuge', label: 'Data de Nascimento do Cônjuge', type: 'date', required: true, mask: '99/99/9999', showWhen: 'conjugeFields' },
       { name: 'rendaMensalConjuge', label: 'Renda Mensal do Cônjuge', type: 'text', required: true, showWhen: 'conjugeFields' },
+      { name: 'profissaoConjuge', label: 'Profissão do Cônjuge', type: 'text', required: false, showWhen: 'conjugeFields' },
+      { name: 'empresaConjuge', label: 'Nome da Empresa do Cônjuge', type: 'text', required: false, showWhen: 'conjugeFields' },
     ]
   },
   {
@@ -53,8 +56,9 @@ export const formSteps: FormStep[] = [
       { name: 'precoImovel', label: 'Preço do Imóvel', type: 'text', required: true },
       { name: 'valorFinanciamento', label: 'Valor do Financiamento', type: 'text', required: true },
       { name: 'prazoFinanciamento', label: 'Prazo do Financiamento', type: 'text', required: true },
+      { name: 'usarFGTS', label: 'Pretende usar o FGTS como parte da entrada?', type: 'select', required: true, options: ['Sim', 'Não'] },
       { name: 'incluirITBI', label: 'Incluir ITBI', type: 'select', required: true, options: ['Sim', 'Não'] },
-      { name: 'bancosPreferencia', label: 'Bancos de Preferência', type: 'text', required: false },
+      { name: 'bancosPreferencia', label: 'Bancos de Relacionamento', type: 'text', required: false },
     ]
   }
 ];

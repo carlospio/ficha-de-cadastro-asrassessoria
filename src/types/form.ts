@@ -22,6 +22,7 @@ export interface FormData {
   naturalidade: string;
   cpf: string;
   rg: string;
+  rne: string;
   orgaoEmissor: string;
   dataEmissao: string;
   // Dados do Cônjuge
@@ -29,6 +30,8 @@ export interface FormData {
   cpfConjuge?: string;
   dataNascimentoConjuge?: string;
   rendaMensalConjuge?: string;
+  profissaoConjuge?: string;
+  empresaConjuge?: string;
   // Endereço e Contato
   endereco: string;
   numero: string;
@@ -50,6 +53,7 @@ export interface FormData {
   precoImovel: string;
   valorFinanciamento: string;
   prazoFinanciamento: string;
+  usarFGTS: string;
   incluirITBI: string;
   bancosPreferencia: string;
 }

@@ -12,6 +12,7 @@ export const formatFormDataForEmail = (data: FormData): string => {
         { label: 'Naturalidade', value: data.naturalidade },
         { label: 'CPF', value: data.cpf },
         { label: 'RG', value: data.rg },
+        { label: 'RNE', value: data.rne },
         { label: 'Órgão Emissor', value: data.orgaoEmissor },
         { label: 'Data de Emissão', value: data.dataEmissao },
       ]
@@ -25,6 +26,8 @@ export const formatFormDataForEmail = (data: FormData): string => {
       { label: 'CPF do Cônjuge', value: data.cpfConjuge ?? '' },
       { label: 'Data de Nascimento do Cônjuge', value: data.dataNascimentoConjuge ?? '' },
       { label: 'Renda Mensal do Cônjuge', value: data.rendaMensalConjuge ?? '' },
+      { label: 'Profissão do Cônjuge', value: data.profissaoConjuge ?? '' },
+      { label: 'Nome da Empresa do Cônjuge', value: data.empresaConjuge ?? '' },
     );
   }
 
@@ -60,8 +63,9 @@ export const formatFormDataForEmail = (data: FormData): string => {
         { label: 'Preço do Imóvel', value: data.precoImovel },
         { label: 'Valor do Financiamento', value: data.valorFinanciamento },
         { label: 'Prazo do Financiamento', value: data.prazoFinanciamento },
+        { label: 'Pretende usar o FGTS como parte da entrada?', value: data.usarFGTS },
         { label: 'Incluir ITBI', value: data.incluirITBI ? 'Sim' : 'Não' },
-        { label: 'Bancos de Preferência', value: data.bancosPreferencia },
+        { label: 'Bancos de Relacionamento', value: data.bancosPreferencia },
       ]
     }
   );
