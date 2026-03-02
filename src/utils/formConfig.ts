@@ -20,6 +20,7 @@ export const formSteps: FormStep[] = [
       { name: 'nomeConjuge', label: 'Nome do Cônjuge', type: 'text', required: true, showWhen: 'conjugeFields' },
       { name: 'cpfConjuge', label: 'CPF do Cônjuge', type: 'text', required: true, mask: '999.999.999-99', showWhen: 'conjugeFields' },
       { name: 'dataNascimentoConjuge', label: 'Data de Nascimento do Cônjuge', type: 'date', required: true, mask: '99/99/9999', showWhen: 'conjugeFields' },
+      { name: 'dataCasamento', label: 'Data de Casamento', type: 'date', required: false, mask: '99/99/9999', showWhen: 'conjugeFields' },
       { name: 'rendaMensalConjuge', label: 'Renda Mensal do Cônjuge', type: 'text', required: true, showWhen: 'conjugeFields' },
       { name: 'profissaoConjuge', label: 'Profissão do Cônjuge', type: 'text', required: false, showWhen: 'conjugeFields' },
       { name: 'empresaConjuge', label: 'Nome da Empresa do Cônjuge', type: 'text', required: false, showWhen: 'conjugeFields' },

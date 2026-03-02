@@ -48,6 +48,7 @@ const getMask = (name: string, defaultMask?: string): string => {
     case 'dataNascimento':
     case 'dataEmissao':
     case 'dataNascimentoConjuge':
+    case 'dataCasamento':
       return '99/99/9999';
     case 'precoImovel':
     case 'valorFinanciamento':

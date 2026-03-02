@@ -29,6 +29,7 @@ export interface FormData {
   nomeConjuge?: string;
   cpfConjuge?: string;
   dataNascimentoConjuge?: string;
+  dataCasamento?: string;
   rendaMensalConjuge?: string;
   profissaoConjuge?: string;
   empresaConjuge?: string;
